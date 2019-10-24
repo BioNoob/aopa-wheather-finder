@@ -140,24 +140,36 @@ namespace ConsoleApp1
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             web.OverrideEncoding = Encoding.GetEncoding("windows-1251");
             var doc = web.Load(url);
+            List<windout> lw = ParseAllTables(doc);
+            lw = lw.Where(t => t.DateFormat >= DateTime.Now && t.DateFormat <= DateTime.Now.AddDays(1)).ToList();
+            foreach (var item in lw)
+            {
+                Console.Write($"{item.Date} ;");
+                foreach (var itemW in item._wind)
+                {
+                    Console.Write($"{itemW}");
+                }
+                Console.WriteLine();
+            }
+
         }
-        private static void ParseAllTables(HtmlDocument doc)
+        private static List<windout> ParseAllTables(HtmlDocument doc)
         {
             var rows = doc.DocumentNode.Descendants("tr");
             Regex rgT = new Regex("^[0-9]{2}$");
             Regex rgD = new Regex(@"^([0-9]{2}\.){2}[0-9]+$");
             Regex selc = new Regex(@"(?<Hi>(\([0-9]+.м\))+).(?<asim>[0-9]{3})\/(?<speed>[0-9]{1,3}).(?<temp>(\-)?[0-9]{1,2})");
-            windout ww = new windout();
+            windout ww;
             List<windout> outlist = new List<windout>();
             foreach (var row in rows.Skip(1))
             {
+                ww = new windout();
                 var row_rw = row.Descendants("td");
                 string Hour = string.Empty;
                 string Data = string.Empty;
                 string Wind = string.Empty;
                 string temper = string.Empty;
                 string asim = string.Empty;
-                Winder wind = new Winder();
                 foreach (var cell in row_rw)
                 {
                     var text = cell.InnerText;
@@ -174,14 +186,17 @@ namespace ConsoleApp1
                     else if (text.Contains("...") && text.Contains("FL"))
                     {
                         Wind = text.Trim().Replace("...", "").Trim();
+                        List<Winder> wr = new List<Winder>(); 
                         foreach (Match item in selc.Matches(Wind))
                         {
+                            Winder wind = new Winder();
                             wind.Asim = item.Groups["asim"].Value;
                             wind.Wind = item.Groups["speed"].Value;
                             wind.Temp = item.Groups["temp"].Value;
                             wind.hi = item.Groups["Hi"].Value;
-                            ww._wind.Add(wind);
+                            wr.Add(wind);
                         }
+                        ww._wind = wr;
                         continue;
                     }
                 }
@@ -190,14 +205,18 @@ namespace ConsoleApp1
                     ww.Date = Hour + ";" + Data;
                     outlist.Add(ww);
                 }
-
             }
+            return outlist;
         }
         public class Winder
         {
             public Winder()
             {
 
+            }
+            public override string ToString()
+            {
+                return $"{hi}. Ветер:{Asim}° - {Wind}км/ч. Температура {Temp}";
             }
             private double _asim;
             private double _temp;
@@ -233,7 +252,12 @@ namespace ConsoleApp1
             {
                 get
                 {
-                    return _temp.ToString(CultureInfo.InvariantCulture);
+                    if(_temp > 0)
+                    {
+                        return "+" + _temp.ToString(CultureInfo.InvariantCulture);
+                    }
+                    else
+                        return _temp.ToString(CultureInfo.InvariantCulture);
                 }
                 set
                 {
@@ -252,11 +276,18 @@ namespace ConsoleApp1
             private DateTime _dt;
             public List<Winder> _wind { get; set; }
 
+            public DateTime DateFormat
+            {
+                get
+                {
+                    return _dt;
+                }
+            }
             public string Date
             {
                 get
                 {
-                    return _dt.ToString("HH dd.MMMM.yyyy");
+                    return _dt.ToString("HH:mm dd.MMMM.yyyy");
                 }
                 set
                 {
