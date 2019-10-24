@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App1.View1">
+    <Grid>
+        <BoxView x:Name="Back"  BackgroundColor="MediumAquamarine" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+        <RelativeLayout Margin="10" HorizontalOptions="Start" VerticalOptions="Start" BackgroundColor="Aquamarine">
+            <Label Text="Ручной режим" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" Margin="5,0"
+                   RelativeLayout.YConstraint= "{ConstraintExpression Type=RelativeToView,ElementName = SwManual,Property=Height, Factor=1, Constant=1}" 
+                   HorizontalTextAlignment="Center" LineBreakMode="WordWrap" VerticalTextAlignment="Center"
+                   WidthRequest="100"/>
+            <Switch x:Name="SwManual" VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" Margin="5,5,5,0" OnColor="Green" Scale="0.6"
+                    />
+        </RelativeLayout>
+        
+        <Grid Margin="10" VerticalOptions="End" HorizontalOptions="Start">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Button x:Name ="b1" Text="Start" BackgroundColor="#77000000" BorderRadius="4" BorderColor="White" BorderWidth="2" 
+                    TextColor="White" Grid.Row="0" Grid.Column="0"
+               />
+            <Button Text="Stop" BackgroundColor="#77000000" BorderRadius="4" BorderColor="White" BorderWidth="2"
+                    TextColor="White" Grid.Row="1" Grid.Column="0"/>
+            <Label Text="LOLOLOLOLOl1234569199191999s9df9s9" Grid.Row="2" Grid.ColumnSpan="3"/>
+        </Grid>
+    </Grid>
+   
+
+</ContentView>

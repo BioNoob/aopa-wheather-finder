@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:App1"
+             x:Class="App1.MainPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="5" ColumnSpacing="5" Grid.Row="0">
+            <Label x:Name="sPlace" Text="{Binding Place}"
+                       Grid.Column="0"/>
+            <Label x:Name="sTime" Text="{Binding Time}"
+                       Grid.Column="1"/>
+        </Grid>
+        <ScrollView Margin="5,0,5,5" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="temp" Text="{Binding Val[temperature]}" Grid.Column="1" Grid.Row="0"/>
+                    <Image x:Name="IcoWheather" Source="{Binding gpp.icon}" Grid.Column="0" Grid.Row="0"/>
+                    <Label Text="Тип" Grid.Column="0" Grid.Row="1"/>
+                    <Label Text="Вероятность осадков" Grid.Column="2" Grid.Row="1"/>
+                    <Label x:Name="prtyp" Text="{Binding gpp.precipType}" Grid.Column="1" Grid.Row="1"/>
+                    <Label x:Name="prprob" Text="{Binding Val[precipProbability]}" Grid.Column="3" Grid.Row="1"/>
+                    <Label Text="Интенсивнсоть" Grid.Column="0" Grid.Row="2"/>
+                    <Label Text="Видимость" Grid.Column="2" Grid.Row="2"/>
+                    <Label x:Name="printens" Text="{Binding Val[precipIntensity]}" Grid.Column="1" Grid.Row="2"/>
+                    <Label x:Name="visib" Text="{Binding Val[visibility]}" Grid.Column="3" Grid.Row="2"/>
+                </Grid>
+                <Grid ColumnSpacing="5" Grid.Row ="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Text="Скорость ветра" Grid.Column="0" Grid.Row="0"/>
+                    <Label Text="Порывы ветра" Grid.Column="2" Grid.Row="0"/>
+                    <Label Text="Направление ветра" Grid.Column="4" Grid.Row="0"/>
+                    <Label x:Name="WindSp" Text="{Binding Val[windSpeed]}" Grid.Column="1" Grid.Row="0"/>
+                    <Label x:Name="WindDir" Text="{Binding Val[windBearing]}" Grid.Column="5" Grid.Row="0"/>
+                    <Label x:Name="WindGu" Text="{Binding Val[windGust]}" Grid.Column="3" Grid.Row="0"/>
+                    <Label Text="Облачность" Grid.ColumnSpan="3" Grid.Column="0"  Grid.Row="1"
+                           />
+                    <Label x:Name="cloudCo" Text="{Binding gpp.cloudCover}" Grid.ColumnSpan="3" Grid.Column="3" Grid.Row="1"
+                           />
+                </Grid>
+                <Grid ColumnSpacing="5" Grid.Row="2">
+                    <Label Text="Давление" Grid.Column="0"/>
+                    <Label Text="Влажность" Grid.Column="2"/>
+                    <Label x:Name="Pressure" Text="{Binding Val[pressure]}" Grid.Column="1"/>
+                    <Label x:Name="Humidity" Text="{Binding Val[humidity]}" Grid.Column="3"/>
+                </Grid>
+            </Grid>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
